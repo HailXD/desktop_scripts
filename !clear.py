@@ -4,6 +4,7 @@ import shutil
 SKIP_FILE_NAME = "!clear.py"
 SKIP_DIR_PREFIX = "!"
 TARGET_DIR_NAME = "dwnldata"
+ZERO_WIDTH_SPACE = "\u200b"
 
 
 def unique_destination(dest_dir: Path, source_name: str, is_dir: bool) -> Path:
@@ -28,6 +29,8 @@ def move_items(root: Path, dest_dir: Path) -> None:
     for entry in root.iterdir():
         name = entry.name
         if name == SKIP_FILE_NAME:
+            continue
+        if name.startswith(ZERO_WIDTH_SPACE):
             continue
         if entry.is_dir() and name.startswith(SKIP_DIR_PREFIX):
             continue
