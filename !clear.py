@@ -37,7 +37,10 @@ def move_items(root: Path, dest_dir: Path) -> None:
         if entry.resolve() == dest_dir.resolve():
             continue
         target = unique_destination(dest_dir, name, entry.is_dir())
-        shutil.move(str(entry), str(target))
+        try:
+            shutil.move(str(entry), str(target))
+        except OSError:
+            continue
 
 
 def main() -> None:
