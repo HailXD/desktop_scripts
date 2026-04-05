@@ -3,7 +3,7 @@ import shutil
 
 SKIP_FILE_NAME = "!clear.py"
 SKIP_DIR_PREFIX = "!"
-TARGET_DIR_NAME = "dwnldata"
+TARGET_DIR_NAME = "DwnlData"
 ZERO_WIDTH_SPACE = "\u200b"
 
 
