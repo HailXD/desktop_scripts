@@ -1,14 +1,17 @@
 @echo off
 setlocal
 
-if /I "%~1"=="install" (
-  shift
-  uv pip %* --system
-) else if /I "%~1"=="uninstall" (
-  shift
-  uv pip %* --system
-) else (
-  uv pip %*
-)
+if exist ".venv" goto run
+if /I "%~1"=="install" shift & goto system
+if /I "%~1"=="uninstall" shift & goto system
+
+:run
+uv pip %*
+goto end
+
+:system
+uv pip %* --system
+
+:end
 
 endlocal
