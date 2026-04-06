@@ -1,19 +1,25 @@
 @echo off
 setlocal
 
-if exist ".g" goto end
+if not exist ".git\" goto end
 
-type nul > ".g"
+if not exist ".g" type nul > ".g"
 
 if not exist ".gitignore" (
-  powershell -NoProfile -Command "[IO.File]::WriteAllText('.gitignore','.g')"
+  > ".gitignore" echo .g
   goto end
 )
 
-powershell -NoProfile -Command "$text=[IO.File]::ReadAllText('.gitignore'); $lines=$text -split '\r?\n'; if ($lines.Contains('.g') -or $lines.Contains('.*')) { exit 0 } else { exit 1 }"
-if not errorlevel 1 goto end
+for %%A in (".gitignore") do if %%~zA==0 (
+  > ".gitignore" echo .g
+  goto end
+)
 
-powershell -NoProfile -Command "$text=[IO.File]::ReadAllText('.gitignore'); $trimmed=$text -replace '(?s)(?:\r?\n[ \t]*)+\z',''; if ([string]::IsNullOrWhiteSpace($trimmed)) { [IO.File]::WriteAllText('.gitignore','.g') } else { [IO.File]::WriteAllText('.gitignore',$trimmed + [Environment]::NewLine + '.g') }"
+findstr /x /c:".g" ".gitignore" >nul 2>nul && goto end
+findstr /x /c:".*" ".gitignore" >nul 2>nul && goto end
+
+>> ".gitignore" echo(
+>> ".gitignore" echo .g
 
 :end
 
