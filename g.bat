@@ -15,8 +15,8 @@ for %%A in (".gitignore") do if %%~zA==0 (
   goto end
 )
 
-findstr /x /c:".g" ".gitignore" >nul 2>nul && goto end
-findstr /x /c:".*" ".gitignore" >nul 2>nul && goto end
+more < ".gitignore" | findstr /x /c:".g" >nul 2>nul && goto end
+more < ".gitignore" | findstr /x /c:".*" >nul 2>nul && goto end
 
 >> ".gitignore" echo(
 >> ".gitignore" <nul set /p "=.g"
